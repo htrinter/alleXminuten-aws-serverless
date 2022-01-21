@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Alle x Minuten</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", sans-serif;
+
+            width: 100vw;
+            min-height: 100vh;
+            background-color: rgb(15, 23, 42);
+            color: #fff;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1#counter {
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .subline {
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        #last_fetched {
+            text-align: center;
+            margin-top: 2rem;
+            color: #ccc;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+<h1 id="counter">Alle x Sekunden</h1>
+<span class="subline">infiziert sich in Deutschland jemand mit Corona</span>
+<span id="last_fetched">Aktualisiert loading</span>
+<script>
+    const loadData = () => {
+        const endpoint = 'https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_COVID19/FeatureServer/0/query?f=json&where=NeuerFall%20IN(1,%20-1)&returnGeometry=false&geometry=42.000,12.000&geometryType=esriGeometryPoint&inSR=4326&spatialRel=esriSpatialRelWithin&outFields=*&outStatistics=%5B%7B"statisticType":"sum","onStatisticField":"AnzahlFall","outStatisticFieldName":"cases"%7D,%20%7B"statisticType":"max","onStatisticField":"MeldeDatum","outStatisticFieldName":"date"%7D%5D&resultType=standard&cacheHint=true';
+
+        fetch(endpoint)
+            .then((result) => result.json())
+            .then((json) => {
+                const cases = json.features[0].attributes.cases;
+                const perHour = cases / 24;
+                const perMinute = perHour / 60;
+                const perSecond = perMinute / 60;
+                const counter = document.getElementById('counter');
+                const interval = (1 / perSecond).toFixed(2);
+
+                counter.innerText = `Alle ${interval} Sekunden`;
+
+                const timestamp = json.features[0].attributes.date;
+                const currentDay = Date.now();
+                const differenceDays = (currentDay - timestamp) / (1000 * 60 * 60 * 24);
+
+                let dateString;
+
+                if (differenceDays < 1) {
+                    dateString = "heute";
+                } else if (differenceDays < 2) {
+                    dateString = "gestern";
+                } else {
+                    dateString = `vor ${Math.floor(differenceDays)} Tagen`;
+                }
+
+                document.getElementById('last_fetched').innerText = `Aktualisiert ${dateString}`;
+            });
+    }
+
+    document.onreadystatechange = () => {
+        if (document.readyState !== 'complete') {
+            return;
+        }
+
+        loadData();
+    };
+</script>
+</body>
+</html>
