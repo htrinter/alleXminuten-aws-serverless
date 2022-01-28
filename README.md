@@ -1,8 +1,13 @@
-# alleXminuten
+# alleXminuten-aws-serverless
 
-Ursprünglich sollte die Seite nur ausrechnen wie viele Minuten vergehen bis sich jemand mit COVID-19 in Deutschland
-infiziert. Analag zum paarship Werbespruch `Alle 11 Minuten...`. Leider sind wir soweit, dass es inzwischen nicht mal
-eine Minute dauert...
+This project builds upon [https://github.com/finreinhard/alleXminuten](https://github.com/finreinhard/alleXminuten) and implements an API and hosting stack for the site using AWS serverless technologies.
 
+This application is primarily intended for demonstration and training purposes. There is an accompanying talk to this project.
 
-[Webseite öffnen](https://alleXminuten.de)
+AWS technologies used:
+
+* AWS Cloud Development Kit
+* AWS CloudFormation
+* AWS Lambda
+* Amazon API Gateway
+* Amazon S3
