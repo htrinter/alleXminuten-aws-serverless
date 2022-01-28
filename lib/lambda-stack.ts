@@ -10,6 +10,7 @@ export class LambdaStack extends NestedStack {
 
     // Lambda function that returns infection rate HTTP response
     this.infectionRateFunction = new lambda.Function(this, "InfectionRateLambda", {
+      description: "Returns current covid infection rate",
       code: lambda.Code.fromAsset("./app/lambda/"),
       handler: "infection-rate.handler",
       runtime: lambda.Runtime.NODEJS_14_X,
