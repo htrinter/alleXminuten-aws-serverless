@@ -4,6 +4,10 @@ This project builds upon [alleXminuten](https://github.com/finreinhard/alleXminu
 
 This application is primarily intended for demonstration and training purposes. There is an accompanying talk to this project.
 
+The slides of the talk (German) are available:  [slides/Serverless in der AWS.pdf](slides/Serverless%20in%20der%20AWS.pdf)
+
+![Architecture of the service](architecture.png)
+
 AWS technologies used:
 
 * AWS Cloud Development Kit
